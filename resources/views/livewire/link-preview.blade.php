@@ -1,15 +1,14 @@
 <div class="max-w-xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-4" x-data="{ loading: false }">
 
-    <form wire:submit.prevent="fetchPreview" @submit="loading = true" class="flex gap-2">
+    <form wire:submit.prevent="fetchPreview" class="flex gap-2">
         <div class="relative flex-1">
-            <input type="url" wire:model.defer="url" placeholder="Collez votre lien ici (https://...)" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 @error('url') border-red-500 @enderror" />
+            <input type="url" wire:model.defer="url" x-ref="urlInput" @blur="if($refs.urlInput.value.trim() !== '') $wire.fetchPreview()" placeholder="Collez votre lien ici (https://...)" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 @error('url') border-red-500 @enderror" />
             @error('url')
             <span class="text-xs text-red-500 mt-1 block">{{ $message }}</span>
             @enderror
         </div>
 
         <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center gap-2 disabled:opacity-50" wire:loading.attr="disabled">
-            <span wire:loading wire:target="fetchPreview" class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
             <span>Générer</span>
         </button>
     </form>
